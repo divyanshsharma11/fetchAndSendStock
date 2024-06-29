@@ -1,8 +1,8 @@
 // routes.js
 const express = require('express');
-const { fetchStockData } = require('../Stock-NodemailSender/utils');
-const { sendEmail } = require('../Stock-NodemailSender/emailStocks');
-
+const { fetchStockData } = require('../utils/fetchStockData');
+const { sendEmail } = require('../utils/emailStocks');
+const { fetchHistoricalData } = require('../utils/fetchhistoricalStockData')
 const router = express.Router();
 
 // Route to handle stock data fetching
@@ -22,6 +22,27 @@ router.post('/fetchStockData', async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 });
+
+// Route to handle fetching historical Stock Data
+router.post('/fetchHistoricalStockData',async(req,res)=>{
+    const symbol = req.body.symbol || 'VOD'; // Default to 'VOD' if no symbol is provided
+    const from = req.body.from 
+    const to = req.body.to
+    console.log(`Received request to fetch Historical stock data for: ${symbol}`);
+
+    try {
+        const histStockData= await fetchHistoricalData(symbol,from,to)
+        if(histStockData){
+            res.json({success: true, message: ' Successfully fetched Historical Stock Data'})
+        }else{
+            res.status(500).json({success:false , message: 'Failed to fetch the stock data'})
+        }
+    } catch (error) {
+        console.error(`Error processing request: ${error.message}`);
+        res.status(500).json({ success: false, message: error.message });
+    }
+})
+
 // Route to handle sending emails
 router.post('/sendEmail', async (req, res) => {
     const recipientEmail = req.body.email;
