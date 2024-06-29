@@ -46,4 +46,4 @@ async function sendEmail(recipientEmail) {
     }
 }
 
-module.exports = sendEmail;
+module.exports = {sendEmail};

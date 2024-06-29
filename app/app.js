@@ -5,7 +5,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('../Stock-NodemailSender/route');
+const routes = require('../routes/route');
 
 const app = express();
 app.use(bodyParser.json());
