@@ -46,6 +46,8 @@ router.post('/fetchHistoricalStockData',async(req,res)=>{
 // Route to handle sending emails
 router.post('/sendEmail', async (req, res) => {
     const recipientEmail = req.body.email;
+    const symbol = req.body.symbol
+    const flag= req.body.flag
 
     if (!recipientEmail) {
         return res.status(400).json({ success: false, message: 'Recipient email is required' });
@@ -54,7 +56,7 @@ router.post('/sendEmail', async (req, res) => {
     console.log(`Received request to send email to: ${recipientEmail}`);
 
     try {
-        const result = await sendEmail(recipientEmail);
+        const result = await sendEmail(recipientEmail,symbol,flag);
         if (result.success) {
             res.json({ success: true, message: 'Email sent successfully', info: result.info });
         } else {

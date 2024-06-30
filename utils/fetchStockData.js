@@ -30,7 +30,16 @@ async function fetchStockData(symbol) {
             };
 
             // Store the data in a JSON file
-            const filePath = path.join(__dirname, 'stockData.json');
+            // Directory to save fetched data
+            const filePath = path.join(__dirname, `../fetchedData/${symbol}stockData.json`);
+            console.log("filePath :: ", filePath)
+
+            // Ensure the `fetchedData` directory exists
+            // if (!fs.existsSync(filePath)) {
+            //     fs.mkdirSync(filePath, { recursive: true });
+            //     console.log(`Created directory: ${filePath}`);
+            // }
+            // const filePath = path.join(__dirname, 'stockData.json');
             fs.writeFileSync(filePath, JSON.stringify(latestData, null, 2));
 
 

@@ -2,6 +2,8 @@
 
 const yahooFinance = require('yahoo-finance2').default;
 const { createObjectCsvWriter } = require('csv-writer');
+const path = require('path');
+const fs = require('fs');
 
 // Function to fetch historical data and write to a CSV file
 async function fetchHistoricalData(symbol, from, to) {
@@ -12,6 +14,15 @@ async function fetchHistoricalData(symbol, from, to) {
             period2: to,   // End date in 'YYYY-MM-DD' format
             interval: '1d' // Daily data
         });
+
+        // Directory to save fetched data
+        const dataDir = path.resolve(__dirname, '../fetchedData');
+
+        // Ensure the `fetchedData` directory exists
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+            console.log(`Created directory: ${dataDir}`);
+        }
 
         if (!result || result.length === 0) {
             throw new Error('No historical data found for the given symbol and date range.');
@@ -29,7 +40,7 @@ async function fetchHistoricalData(symbol, from, to) {
 
         // Define the CSV writer configuration
         const csvWriter = createObjectCsvWriter({
-            path: `${symbol}_historical_data.csv`,
+            path: path.join(dataDir, `${symbol}_historical_data.csv`),
             header: [
                 { id: 'Date', title: 'Date' },
                 { id: 'Open', title: 'Open' },
