@@ -1,9 +1,9 @@
 // sendEmail.js
 const nodemailer = require('nodemailer');
 const path = require('path');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '../config/.env') });
 
-async function sendEmail(recipientEmail) {
+async function sendEmail(recipientEmail,symbol,flag) {
     const email = process.env.EMAIL_USER;
     const appPassword = process.env.EMAIL_PASS;
 
@@ -18,8 +18,13 @@ async function sendEmail(recipientEmail) {
             pass: appPassword, // Use the App Password here
         },
     });
+    let attachmentFilePath;
 
-    const attachmentFilePath = path.join(__dirname, 'stockData.json');
+    if(flag=="json"){
+    attachmentFilePath = path.join(__dirname, `../fetchedData/${symbol}stockData.json`);
+    }else{
+        attachmentFilePath = path.join(__dirname, `../fetchedData/${symbol}_historical_data.csv`);
+    }
 
     const mailOptions = {
         from: email,
@@ -28,7 +33,7 @@ async function sendEmail(recipientEmail) {
         text: 'Please find the attached stock data file.',
         attachments: [
             {
-                filename: 'stockData.json', // The name of the attachment in the email
+                filename: `${symbol}stockData.json`, // The name of the attachment in the email
                 path: attachmentFilePath // Path to the file on your local system
             }
         ]
