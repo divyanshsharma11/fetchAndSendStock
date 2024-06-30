@@ -36,9 +36,9 @@ This project demonstrates a Node.js application that fetches real-time stock dat
     npm install
     ```
 
-3. **Install nodemon globally (if not already installed)**:
+3. **Install nodemon as Dev Dependency (if not already installed)**:
     ```bash
-    npm install -g nodemon
+    npm install nodemon --save-dev
     ```
 
 4. **Setup Environment Variables**:
@@ -56,12 +56,12 @@ This project demonstrates a Node.js application that fetches real-time stock dat
 5. **Setup Environment Variables**:
   - Start the server with nodemon to automatically restart on file changes:
     ```bash
-    nodemon server.js
+    nodemon app.js
     ```
 7. **Run the Application Using Node**
 - If you prefer not to use nodemon, you can start the server with Node.js:
     ```bash
-    nodemon server.js
+    node ./app.js
     ```
 8. **Testing**:
 -  Use Postman or any API client to test the endpoints.
